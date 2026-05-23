@@ -4,9 +4,9 @@
 
 export const SITE = {
   name: 'SchoolCBT',
-  url: 'https://schoolcbt.com.ng',
+  url: 'https://schoolcbt.ewinproject.org',
   description: 'Nigeria\'s #1 AI-powered CBT platform for JAMB, WAEC, NECO & NABTEB. Multi-agent AI, predictive pass analytics, tutor matching. Results as a Service.',
-  image: 'https://schoolcbt.com.ng/og-image.png',
+  image: 'https://schoolcbt.ewinproject.org/og-image.png',
   twitter: '@SchoolCBT',
   locale: 'en_NG',
   currency: 'NGN'

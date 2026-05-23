@@ -3,7 +3,7 @@
 // Docs: https://resend.com/docs/send-with-sveltekit
 
 const RESEND_API_URL = 'https://api.resend.com/emails';
-const FROM_ADDRESS = 'SchoolCBT <noreply@schoolcbt.com.ng>';
+const FROM_ADDRESS = 'SchoolCBT <noreply@schoolcbt.ewinproject.org>';
 
 interface SendEmailParams {
   to: string;
@@ -64,7 +64,7 @@ export function welcomeEmail(name: string): string {
         <p style="margin:0 0 8px"><strong>2.</strong> Complete your student/tutor profile</p>
         <p style="margin:0"><strong>3.</strong> Start your first CBT practice session</p>
       </div>
-      <a href="https://schoolcbt.com.ng/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px">Go to Dashboard →</a>
+      <a href="https://schoolcbt.ewinproject.org/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px">Go to Dashboard →</a>
       <p style="font-size:12px;color:#445566;margin-top:24px">© 2025 SchoolCBT Technologies Ltd. Lagos, Nigeria.</p>
     </div>`;
 }
@@ -98,7 +98,7 @@ export function paymentConfirmationEmail(name: string, amount: string, plan: str
         <p style="margin:4px 0"><strong>Status:</strong> Active ✅</p>
       </div>
       <p style="font-size:14px">Thank you for subscribing, ${name}! Your full CBT platform access is now active.</p>
-      <a href="https://schoolcbt.com.ng/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;margin-top:16px">Start Practicing →</a>
+      <a href="https://schoolcbt.ewinproject.org/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;margin-top:16px">Start Practicing →</a>
       <p style="font-size:12px;color:#445566;margin-top:24px">© 2025 SchoolCBT Technologies Ltd. Lagos, Nigeria.</p>
     </div>`;
 }

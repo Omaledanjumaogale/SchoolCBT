@@ -73,7 +73,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "SchoolCBT",
-    "url": "https://schoolcbt.com.ng",
+    "url": "https://schoolcbt.ewinproject.org",
     "description": "Nigeria's #1 AI CBT platform for JAMB, WAEC, NECO & NABTEB.",
     "address": { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" }
   }

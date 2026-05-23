@@ -162,7 +162,7 @@ STRIPE_SECRET_KEY=
 VITE_RESEND_API_KEY=
 
 # App
-PUBLIC_APP_URL=https://schoolcbt.com.ng
+PUBLIC_APP_URL=https://schoolcbt.ewinproject.org
 ```
 
 ---
@@ -267,4 +267,4 @@ Built with ❤️ in Lagos, Nigeria.
 
 > *"Every Nigerian student deserves guaranteed exam results — not just access to past questions."*
 
-**Website:** https://schoolcbt.com.ng
+**Website:** https://schoolcbt.ewinproject.org

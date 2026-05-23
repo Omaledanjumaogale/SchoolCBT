@@ -223,10 +223,10 @@
   <meta name="keywords" content="CBT practice, JAMB CBT, WAEC practice test, NECO exam questions, AI exam simulator Nigeria, free CBT test" />
   <meta property="og:title" content="CBT Practice — SchoolCBT" />
   <meta property="og:description" content="Practice JAMB, WAEC, NECO questions with AI-generated batches, live timer, and instant feedback." />
-  <meta property="og:url" content="https://schoolcbt.com.ng/practice" />
-  <meta property="og:image" content="https://schoolcbt.com.ng/og-image.png" />
+  <meta property="og:url" content="https://schoolcbt.ewinproject.org/practice" />
+  <meta property="og:image" content="https://schoolcbt.ewinproject.org/og-image.png" />
   <meta property="og:type" content="website" />
-  <link rel="canonical" href="https://schoolcbt.com.ng/practice" />
+  <link rel="canonical" href="https://schoolcbt.ewinproject.org/practice" />
 </svelte:head>
 
 <!-- Full Practice Page -->
