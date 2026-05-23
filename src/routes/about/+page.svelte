@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { ogMeta, jsonLDBreadcrumb } from '$lib/seo';
 </script>
 
 <svelte:head>
   <title>About SchoolCBT — Nigeria's Premier AI CBT Platform</title>
   <meta name="description" content="SchoolCBT is Nigeria's leading AI-powered exam preparation platform. Our mission, team, and technology stack powering results for 50,000+ students." />
+  <meta name="keywords" content="about SchoolCBT, Nigerian edtech, AI exam platform, education technology Nigeria" />
+  {@html ogMeta({ title: 'About SchoolCBT — Nigeria\'s Premier AI CBT Platform', description: 'SchoolCBT is Nigeria\'s leading AI-powered exam preparation platform. Our mission, team, and technology stack powering results for 50,000+ students.', path: '/about' })}
+  {@html `<script type="application/ld+json">${jsonLDBreadcrumb([{ name: 'Home', url: '/' }, { name: 'About', url: '/about' }])}<\/script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-[#04091a] pt-20 pb-16">

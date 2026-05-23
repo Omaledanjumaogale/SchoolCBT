@@ -92,7 +92,7 @@
 <svelte:head>
   <title>Dashboard — SchoolCBT</title>
   <meta name="description" content="Your personalized SchoolCBT student dashboard — track exam readiness, study progress, and AI-powered insights." />
-  <meta name="robots" content="noindex" />
+  <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
 <main class="min-h-screen bg-mesh pt-20">

@@ -46,6 +46,7 @@
 <svelte:head>
   <title>Tutor Dashboard — SchoolCBT | Earn as You Teach</title>
   <meta name="description" content="SchoolCBT tutor dashboard. Manage your sessions, track earnings, view student performance. Join 240+ verified tutors." />
+  <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
 <div class="min-h-screen bg-[#04091a] pt-20 pb-16">

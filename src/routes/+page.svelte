@@ -16,6 +16,10 @@
   <meta name="keywords" content="SchoolCBT, Nigeria CBT exam, JAMB preparation 2025, WAEC practice questions, NECO CBT, AI exam Nigeria, pass JAMB WAEC NECO" />
   <meta property="og:title" content="SchoolCBT – Nigeria's Premier AI CBT Platform" />
   <meta property="og:description" content="Multi-agent AI prepares Nigerian students for JAMB, WAEC & NECO with personalized question batches and guaranteed results." />
+  <meta property="og:url" content="https://schoolcbt.com.ng" />
+  <meta property="og:image" content="https://schoolcbt.com.ng/og-image.png" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://schoolcbt.com.ng" />
 </svelte:head>
 
 <HeroSection>

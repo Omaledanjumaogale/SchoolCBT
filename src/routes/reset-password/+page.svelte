@@ -29,6 +29,7 @@
 <svelte:head>
   <title>Reset Password — SchoolCBT</title>
   <meta name="description" content="Reset your SchoolCBT account password." />
+  <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
 <div class="min-h-screen bg-[#04091a] flex items-center justify-center pt-16 pb-16 px-4">

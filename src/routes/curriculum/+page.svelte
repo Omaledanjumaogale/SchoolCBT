@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { ogMeta, jsonLDBreadcrumb } from '$lib/seo';
 </script>
 
 <svelte:head>
   <title>Curriculum Coverage — SchoolCBT | NERDC-Aligned Exam Preparation</title>
   <meta name="description" content="SchoolCBT covers JAMB, WAEC, NECO, and NABTEB curricula aligned with NERDC standards. All major subjects available with AI-generated questions." />
+  <meta name="keywords" content="JAMB syllabus, WAEC curriculum, NECO subjects, NABTEB exam prep, NERDC curriculum, Nigerian exam preparation" />
+  {@html ogMeta({ title: 'Curriculum Coverage — SchoolCBT | NERDC-Aligned Exam Preparation', description: 'SchoolCBT covers JAMB, WAEC, NECO, and NABTEB curricula aligned with NERDC standards. All major subjects available with AI-generated questions.', path: '/curriculum' })}
+  {@html `<script type="application/ld+json">${jsonLDBreadcrumb([{ name: 'Home', url: '/' }, { name: 'Curriculum', url: '/curriculum' }])}<\/script>`}
 </svelte:head>
 
 <div class="min-h-screen bg-[#04091a] pt-20 pb-16">
