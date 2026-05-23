@@ -18,15 +18,32 @@
         </div>
       </div>
       {#each [
-        {title:'Platform', links:['Features','CBT Demo','Pricing','Curriculum','Dashboard']},
-        {title:'Exams',    links:['JAMB UTME','WAEC SSCE','NECO','NABTEB','POST-UTME']},
-        {title:'Legal',    links:['Privacy Policy','Terms of Service','Refund Policy','Contact Us']}
+        {title:'Platform', links:[
+          {label:'Features',  href:'/#features'},
+          {label:'CBT Demo',  href:'/#cbt-demo'},
+          {label:'Pricing',   href:'/pricing'},
+          {label:'Curriculum',href:'/curriculum'},
+          {label:'Dashboard', href:'/dashboard'}
+        ]},
+        {title:'Exams', links:[
+          {label:'JAMB UTME', href:'/#features'},
+          {label:'WAEC SSCE',href:'/#features'},
+          {label:'NECO',     href:'/#features'},
+          {label:'NABTEB',   href:'/#features'},
+          {label:'POST-UTME',href:'/#features'}
+        ]},
+        {title:'Legal', links:[
+          {label:'About Us',      href:'/about'},
+          {label:'Privacy Policy',href:'/#'},
+          {label:'Terms of Service',href:'/#'},
+          {label:'Contact Us',    href:'/#about'}
+        ]}
       ] as col}
         <div>
           <div class="mb-4 text-sm font-semibold text-white">{col.title}</div>
           <div class="space-y-2.5">
             {#each col.links as link}
-              <a href="/" class="block text-sm text-white/40 hover:text-white/70 transition-colors">{link}</a>
+              <a href={link.href} class="block text-sm text-white/40 hover:text-white/70 transition-colors">{link.label}</a>
             {/each}
           </div>
         </div>

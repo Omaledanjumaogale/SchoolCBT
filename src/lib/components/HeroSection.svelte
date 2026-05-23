@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  let { onSignup, cbtPanel }: { onSignup: () => void; cbtPanel?: Snippet } = $props();
+  import { showModal } from '$lib/stores';
+  let { cbtPanel }: { cbtPanel?: Snippet } = $props();
 </script>
 
 <section id="home" class="bg-hero relative min-h-screen overflow-hidden pt-16">
@@ -24,7 +25,7 @@
           Multi-agent AI generates personalized JAMB, WAEC, NECO &amp; NABTEB question batches grounded in Nigerian curricula. Predictive pass analytics, tutor matching, and automated report cards — all in one platform.
         </p>
         <div class="mb-10 flex flex-wrap gap-4 animate-fade-up">
-          <button onclick={onSignup} class="btn-gold flex items-center gap-2 px-7 py-3.5 text-sm">⚡ Start Free Today</button>
+          <button onclick={() => showModal('signup')} class="btn-gold flex items-center gap-2 px-7 py-3.5 text-sm">⚡ Start Free Today</button>
           <a href="#cbt-demo" class="btn-outline flex items-center gap-2 px-7 py-3.5 text-sm">▶ Try Live Demo</a>
         </div>
         <div class="flex flex-wrap items-center gap-4 text-xs text-white/35">

@@ -1,26 +1,32 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+
   let { mobileMenuOpen = $bindable(false), onLogin, onSignup }: {
     mobileMenuOpen?: boolean;
     onLogin: () => void;
     onSignup: () => void;
   } = $props();
 
+  const isHome = $derived($page.url.pathname === '/');
+
+  function href(section: string, route: string) {
+    return isHome ? section : route;
+  }
+
   const navLinks = [
-    { href: '#features', label: 'Features' },
-    { href: '#cbt-demo', label: 'Live Demo' },
-    { href: '#curriculum', label: 'Curriculum' },
-    { href: '#student-dashboard', label: 'Dashboard' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#about', label: 'About' }
+    { section: '#features', route: '/#features', label: 'Features' },
+    { section: '#cbt-demo', route: '/#cbt-demo', label: 'Live Demo' },
+    { section: '#curriculum', route: '/curriculum', label: 'Curriculum' },
+    { section: '#pricing', route: '/pricing', label: 'Pricing' },
+    { section: '#about', route: '/about', label: 'About' }
   ];
 
   const mobileLinks = [
-    { href: '#features', label: '🎯 Features' },
-    { href: '#cbt-demo', label: '⚡ Live Demo' },
-    { href: '#curriculum', label: '📚 Curriculum' },
-    { href: '#student-dashboard', label: '📊 Dashboard' },
-    { href: '#pricing', label: '💰 Pricing' },
-    { href: '#about', label: '🏢 About' }
+    { section: '#features', route: '/#features', label: '🎯 Features' },
+    { section: '#cbt-demo', route: '/#cbt-demo', label: '⚡ Live Demo' },
+    { section: '#curriculum', route: '/curriculum', label: '📚 Curriculum' },
+    { section: '#pricing', route: '/pricing', label: '💰 Pricing' },
+    { section: '#about', route: '/about', label: '🏢 About' }
   ];
 
   function closeMenu() { mobileMenuOpen = false; }
@@ -31,7 +37,6 @@
 <nav class="glass-nav fixed top-0 right-0 left-0 z-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
-      <!-- Logo -->
       <a href="/" class="flex items-center gap-2.5">
         <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-cobalt-light to-cobalt glow-gold">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
@@ -43,14 +48,12 @@
         </span>
       </a>
 
-      <!-- Desktop Nav -->
       <div class="hidden items-center gap-6 lg:flex">
         {#each navLinks as link}
-          <a href={link.href} class="nav-link">{link.label}</a>
+          <a href={href(link.section, link.route)} class="nav-link">{link.label}</a>
         {/each}
       </div>
 
-      <!-- CTA + Hamburger -->
       <div class="flex items-center gap-3">
         <button onclick={onLogin} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log In</button>
         <button onclick={onSignup} class="btn-gold hidden px-5 py-2 text-sm sm:inline-flex">Get Started →</button>
@@ -70,11 +73,10 @@
       </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div class="mobile-menu {mobileMenuOpen ? 'open' : ''}">
       <div class="border-t border-white/06 py-4 space-y-1">
         {#each mobileLinks as link}
-          <a href={link.href} onclick={closeMenu}
+          <a href={href(link.section, link.route)} onclick={closeMenu}
             class="block rounded-xl px-4 py-3 text-sm text-white/70 hover:bg-white/5 hover:text-white transition-colors">
             {link.label}
           </a>

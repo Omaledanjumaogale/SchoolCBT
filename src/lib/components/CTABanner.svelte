@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { onSignup }: { onSignup: () => void } = $props();
+  import { showModal } from '$lib/stores';
 </script>
 
 <section class="relative overflow-hidden py-20">
@@ -10,7 +10,7 @@
     <h2 class="font-sora mb-4 text-4xl font-extrabold text-white">Ready to <span class="text-gold">Guarantee</span> Your Results?</h2>
     <p class="mx-auto mb-8 max-w-2xl text-lg text-white/55">Join 50,000+ Nigerian students preparing smarter. Your JAMB, WAEC, or NECO success begins here.</p>
     <div class="flex flex-wrap justify-center gap-4">
-      <button onclick={onSignup} class="btn-gold px-8 py-4 text-base">Start Free Today →</button>
+      <button onclick={() => showModal('signup')} class="btn-gold px-8 py-4 text-base">Start Free Today →</button>
       <a href="#cbt-demo"   class="btn-outline px-8 py-4 text-base">Try CBT Demo First</a>
     </div>
     <p class="mt-5 text-xs text-white/30">✓ No credit card for demo · ✓ Mobile-ready · ✓ Nigerian Naira pricing</p>

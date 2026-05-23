@@ -1,21 +1,27 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
   import '../app.css';
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
-
-  // SEO meta defaults
-  const defaultTitle = 'SchoolCBT – Nigeria\'s Premier AI-Powered CBT Platform';
-  const defaultDesc  = 'Nigeria\'s #1 AI CBT platform for JAMB, WAEC, NECO & NABTEB. Multi-agent AI generates personalized question batches, predictive pass analytics, tutor matching and automated report cards. Results as a Service.';
+  import Nav from '$lib/components/Nav.svelte';
+  import SiteFooter from '$lib/components/SiteFooter.svelte';
+  import AuthModals from '$lib/components/AuthModals.svelte';
+  import Toast from '$lib/components/Toast.svelte';
+  import { uiStore, showModal, hideModals } from '$lib/stores';
 
   let { children } = $props();
+  let mobileMenuOpen = $state(false);
 
-  onMount(() => {
-    if (!browser) return;
-    // Smooth scroll polyfill for Safari
-    document.documentElement.style.scrollBehavior = 'smooth';
+  let signupOpen = $state(false);
+  let loginOpen = $state(false);
+
+  uiStore.subscribe(s => {
+    signupOpen = s.signupModal;
+    loginOpen = s.loginModal;
   });
+
+  // The Nav callbacks forward to the store so any component
+  // using showModal('signup') / showModal('login') triggers them
+  function onLogin() { showModal('login'); }
+  function onSignup() { showModal('signup'); }
 </script>
 
 <svelte:head>
@@ -26,48 +32,32 @@
   <meta name="author" content="SchoolCBT Technologies Ltd." />
   <meta name="geo.region" content="NG" />
   <meta name="geo.placename" content="Lagos, Nigeria" />
-
-  <!-- Open Graph -->
   <meta property="og:site_name" content="SchoolCBT" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_NG" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@SchoolCBT" />
 
-  <!-- Structured Data — Organization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
   {@html `<script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "SchoolCBT",
     "url": "https://schoolcbt.com.ng",
-    "logo": "https://schoolcbt.com.ng/logo.png",
-    "description": "${defaultDesc}",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Lagos",
-      "addressCountry": "NG"
-    },
-    "sameAs": [
-      "https://twitter.com/SchoolCBT",
-      "https://linkedin.com/company/schoolcbt"
-    ]
+    "description": "Nigeria's #1 AI CBT platform for JAMB, WAEC, NECO & NABTEB.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" }
   }
   <\/script>`}
-
-  <!-- Preconnect fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 </svelte:head>
 
+<AuthModals bind:signupOpen bind:loginOpen />
+<Nav bind:mobileMenuOpen onLogin={onLogin} onSignup={onSignup} />
+
 {@render children()}
+
+<SiteFooter />
+<Toast />

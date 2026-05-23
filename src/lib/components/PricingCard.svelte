@@ -1,5 +1,6 @@
 <script lang="ts">
-  let { planId, label, price, sub, priceColor = 'text-white', popular = false, badge = 'badge-blue', features = [], ctaText = 'Get Started', onCTAClick }: {
+  import { showModal } from '$lib/stores';
+  let { planId, label, price, sub, priceColor = 'text-white', popular = false, badge = 'badge-blue', features = [], ctaText = 'Get Started' }: {
     planId: string;
     label: string;
     price: string;
@@ -9,7 +10,6 @@
     badge?: string;
     features: string[];
     ctaText: string;
-    onCTAClick?: () => void;
   } = $props();
 </script>
 
@@ -29,7 +29,7 @@
       </div>
     {/each}
   </div>
-  <button onclick={onCTAClick} class="btn-{popular ? 'gold' : planId === 'school' ? 'primary' : 'outline'} w-full py-3 text-sm">
+  <button onclick={() => showModal('signup')} class="btn-{popular ? 'gold' : planId === 'school' ? 'primary' : 'outline'} w-full py-3 text-sm">
     {ctaText}
   </button>
 </div>

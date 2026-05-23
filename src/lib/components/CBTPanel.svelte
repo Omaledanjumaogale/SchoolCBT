@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { onSignup }: { onSignup: () => void } = $props();
+  import { showModal } from '$lib/stores';
 
   const labels = ['A', 'B', 'C', 'D'];
   let score = $state(0);
@@ -135,6 +135,6 @@
     <div class="flex items-center gap-2 text-xs text-white/30">
       <span class="pulse-dot h-1.5 w-1.5 rounded-full bg-jade inline-block"></span>AI · Nigerian Curriculum
     </div>
-    <button onclick={onSignup} class="text-xs text-gold hover:text-gold/80 font-medium">Full Platform →</button>
+    <button onclick={() => showModal('signup')} class="text-xs text-gold hover:text-gold/80 font-medium">Full Platform →</button>
   </div>
 </div>

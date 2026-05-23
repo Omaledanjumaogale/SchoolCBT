@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { onSignup }: { onSignup: () => void } = $props();
+  import { showModal } from '$lib/stores';
 
   const labels = ['A', 'B', 'C', 'D'];
   const bloomColors: Record<string, string> = { Knowledge:'badge-blue', Comprehension:'badge-jade', Application:'badge-gold', Analysis:'badge-scarlet' };
@@ -291,7 +291,7 @@
             </div>
             <div class="flex flex-wrap justify-center gap-3">
               <button onclick={generateDemo} class="btn-gold px-6 py-2.5 text-sm">Try Again 🔄</button>
-              <button onclick={onSignup} class="btn-outline px-6 py-2.5 text-sm">Full Platform →</button>
+              <button onclick={() => showModal('signup')} class="btn-outline px-6 py-2.5 text-sm">Full Platform →</button>
             </div>
           </div>
         {/if}
