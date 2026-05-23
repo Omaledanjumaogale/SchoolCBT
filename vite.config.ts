@@ -1,18 +1,11 @@
-import { sveltekit } from '@sveltejs/vite-plugin-svelte';
+import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [sveltekit()],
 	build: {
 		target: 'esnext',
-		minify: 'terser',
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore']
-				}
-			}
-		}
+		minify: 'terser'
 	},
 	optimizeDeps: {
 		include: ['firebase/app', 'firebase/auth', 'firebase/firestore']

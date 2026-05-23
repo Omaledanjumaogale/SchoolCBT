@@ -1,34 +1,8 @@
 // src/routes/pay/+server.ts
 // SchoolCBT Payment Processing — Paystack + Stripe integration
-import { json, error, redirect } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-
-// ─── PLAN CONFIG ─────────────────────────────────────────────
-export const PLANS = {
-  'student-single': {
-    name:      'Student — Single Exam',
-    amountNGN: 10_000,
-    amountUSD: 650,  // ~₦10,000
-    features:  ['Unlimited AI question batches', 'AI study plan', 'Report cards', 'Pass analytics'],
-    durationDays: 90
-  },
-  'student-premium': {
-    name:      'Student + Tutor Support',
-    amountNGN: 25_000,
-    amountUSD: 1600,
-    features:  ['Everything in Single Exam', 'AI tutor matching', 'Live 1:1 sessions', 'Parent reports'],
-    durationDays: 90
-  },
-  'school': {
-    name:      'School / Institution',
-    amountNGN: null, // Custom
-    amountUSD: null,
-    features:  ['Bulk onboarding', 'Admin dashboard', 'Custom branding', 'API integration'],
-    durationDays: 365
-  }
-} as const;
-
-type PlanId = keyof typeof PLANS;
+import { PLANS, type PlanId } from '$lib/plans';
 
 // ─── POST: initiate payment ──────────────────────────────────
 export const POST: RequestHandler = async ({ request, platform }) => {
