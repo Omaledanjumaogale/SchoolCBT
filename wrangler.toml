@@ -1,0 +1,24 @@
+name = "schoolcbt"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".svelte-kit/cloudflare"
+
+[vars]
+PUBLIC_APP_NAME = "SchoolCBT"
+PUBLIC_APP_URL = "https://schoolcbt.com.ng"
+
+# KV Namespace for session/rate limiting
+# [[kv_namespaces]]
+# binding = "SESSIONS"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+# R2 Bucket for uploads (academic reports)
+# [[r2_buckets]]
+# binding = "UPLOADS"
+# bucket_name = "schoolcbt-uploads"
+
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "modules"
