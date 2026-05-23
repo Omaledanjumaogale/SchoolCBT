@@ -93,6 +93,16 @@ export function onAuthChange(callback: (user: User | null) => void) {
   return onAuthStateChanged(auth, callback);
 }
 
+export async function sendPasswordReset(email: string) {
+  if (!auth) throw new Error('Firebase not initialized');
+  await sendPasswordResetEmail(auth, email);
+}
+
+export async function sendVerificationEmail() {
+  if (!auth?.currentUser) throw new Error('No user logged in');
+  await sendEmailVerification(auth.currentUser);
+}
+
 // ─── FIRESTORE HELPERS ──────────────────────────────────────
 export async function getUserProfile(uid: string) {
   if (!db) return null;

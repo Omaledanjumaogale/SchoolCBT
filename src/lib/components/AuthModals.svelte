@@ -1,16 +1,99 @@
 <script lang="ts">
+  import { registerUser, loginUser, logoutUser, auth } from '$lib/firebase';
+  import { authStore } from '$lib/stores';
+  import { showToast } from '$lib/stores';
+  import { hideModals } from '$lib/stores';
+
   let { signupOpen = $bindable(false), loginOpen = $bindable(false) }: {
     signupOpen?: boolean;
     loginOpen?: boolean;
   } = $props();
 
   let signupRole = $state<'student'|'tutor'>('student');
+  let signupName = $state('');
+  let signupEmail = $state('');
+  let signupPhone = $state('');
+  let signupPassword = $state('');
+  let signupExam = $state('');
+  let loginEmail = $state('');
+  let loginPassword = $state('');
+  let isLoading = $state(false);
+  let errorMsg = $state('');
 
-  function closeAll() { signupOpen = false; loginOpen = false; }
-  function submitSignup() { closeAll(); }
-  function submitLogin() { closeAll(); }
-  function switchToLogin() { signupOpen = false; loginOpen = true; }
-  function switchToSignup() { loginOpen = false; signupOpen = true; }
+  function closeAll() {
+    signupOpen = false;
+    loginOpen = false;
+    errorMsg = '';
+  }
+
+  function switchToLogin() { signupOpen = false; loginOpen = true; errorMsg = ''; }
+  function switchToSignup() { loginOpen = false; signupOpen = true; errorMsg = ''; }
+
+  async function submitSignup() {
+    if (!signupName || !signupEmail || !signupPassword) {
+      errorMsg = 'Please fill all required fields.';
+      return;
+    }
+    if (signupPassword.length < 6) {
+      errorMsg = 'Password must be at least 6 characters.';
+      return;
+    }
+    isLoading = true;
+    errorMsg = '';
+    try {
+      const user = await registerUser(signupEmail, signupPassword, signupName, signupRole);
+      authStore.login({
+        uid: user.uid,
+        email: user.email ?? signupEmail,
+        displayName: signupName,
+        role: signupRole,
+        photoURL: user.photoURL ?? undefined
+      });
+      showToast('Account created! Check your email for verification.');
+      closeAll();
+      // Reset form
+      signupName = ''; signupEmail = ''; signupPhone = ''; signupPassword = ''; signupExam = '';
+    } catch (e: any) {
+      errorMsg = e?.message ?? 'Signup failed. Please try again.';
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  async function submitLogin() {
+    if (!loginEmail || !loginPassword) {
+      errorMsg = 'Please enter your email and password.';
+      return;
+    }
+    isLoading = true;
+    errorMsg = '';
+    try {
+      const user = await loginUser(loginEmail, loginPassword);
+      authStore.login({
+        uid: user.uid,
+        email: user.email ?? loginEmail,
+        displayName: user.displayName ?? 'User',
+        role: 'student',
+        photoURL: user.photoURL ?? undefined
+      });
+      showToast(`Welcome back${user.displayName ? ', ' + user.displayName : ''}! Redirecting to dashboard...`);
+      closeAll();
+      loginEmail = ''; loginPassword = '';
+      // Redirect to dashboard after short delay
+      setTimeout(() => { window.location.href = '/dashboard'; }, 800);
+    } catch (e: any) {
+      const code = e?.code ?? '';
+      if (code === 'auth/invalid-credential' || code === 'auth/user-not-found') {
+        errorMsg = 'Invalid email or password.';
+      } else if (code === 'auth/too-many-requests') {
+        errorMsg = 'Too many attempts. Please try again later.';
+      } else {
+        errorMsg = e?.message ?? 'Login failed. Please try again.';
+      }
+    } finally {
+      isLoading = false;
+    }
+  }
 </script>
 
 {#if signupOpen}
@@ -28,19 +111,24 @@
         <button onclick={() => signupRole = 'student'} class="flex-1 py-2 rounded-lg text-sm transition-all {signupRole==='student' ? 'font-semibold bg-cobalt/60 border border-gold/25 text-gold' : 'font-medium text-white/50'}">🎓 Student</button>
         <button onclick={() => signupRole = 'tutor'} class="flex-1 py-2 rounded-lg text-sm transition-all {signupRole==='tutor' ? 'font-semibold bg-cobalt/60 border border-gold/25 text-gold' : 'font-medium text-white/50'}">👨‍🏫 Tutor</button>
       </div>
+      {#if errorMsg}
+        <div class="mb-4 rounded-xl border border-scarlet/20 bg-scarlet/10 p-3 text-xs text-scarlet">{errorMsg}</div>
+      {/if}
       <div class="space-y-4">
-        <input type="text" placeholder="Full Name" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
-        <input type="email" placeholder="Email Address" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
-        <input type="tel" placeholder="Phone Number" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="text" bind:value={signupName} placeholder="Full Name" required class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="email" bind:value={signupEmail} placeholder="Email Address" required class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="tel" bind:value={signupPhone} placeholder="Phone Number" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
         {#if signupRole === 'student'}
-          <select class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white/70 focus:border-gold/50 focus:outline-none appearance-none">
+          <select bind:value={signupExam} class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white/70 focus:border-gold/50 focus:outline-none appearance-none">
             <option value="">Select Target Exam</option>
             <option>JAMB UTME</option><option>WAEC SSCE</option><option>NECO</option><option>NABTEB</option>
           </select>
         {/if}
-        <input type="password" placeholder="Create Password" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="password" bind:value={signupPassword} placeholder="Create Password (min 6 chars)" required class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
       </div>
-      <button onclick={submitSignup} class="btn-gold w-full py-3.5 text-sm mt-6">Create Account →</button>
+      <button onclick={submitSignup} disabled={isLoading} class="btn-gold w-full py-3.5 text-sm mt-6 {isLoading ? 'opacity-60 cursor-not-allowed' : ''}">
+        {isLoading ? 'Creating Account...' : 'Create Account →'}
+      </button>
       <p class="mt-4 text-center text-xs text-white/35">Have an account? <button onclick={switchToLogin} class="text-gold hover:underline">Log in</button></p>
     </div>
   </div>
@@ -57,14 +145,20 @@
         </div>
         <button onclick={closeAll} class="glass h-8 w-8 rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
       </div>
+      {#if errorMsg}
+        <div class="mb-4 rounded-xl border border-scarlet/20 bg-scarlet/10 p-3 text-xs text-scarlet">{errorMsg}</div>
+      {/if}
       <div class="space-y-4">
-        <input type="email" placeholder="Email" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
-        <input type="password" placeholder="Password" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="email" bind:value={loginEmail} placeholder="Email" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
+        <input type="password" bind:value={loginPassword} placeholder="Password" class="w-full rounded-xl border border-white/10 bg-cobalt-xdark/60 px-4 py-3 text-sm text-white placeholder-white/30 focus:border-gold/50 focus:outline-none" />
       </div>
-      <div class="flex justify-end mt-2 mb-4">
+      <div class="flex justify-between mt-2 mb-4">
+        <label class="flex items-center gap-2 text-xs text-white/40"><input type="checkbox" class="accent-gold rounded" /> Remember me</label>
         <a href="/reset-password" class="text-xs text-gold hover:underline">Forgot password?</a>
       </div>
-      <button onclick={submitLogin} class="btn-gold w-full py-3.5 text-sm">Log In</button>
+      <button onclick={submitLogin} disabled={isLoading} class="btn-gold w-full py-3.5 text-sm {isLoading ? 'opacity-60 cursor-not-allowed' : ''}">
+        {isLoading ? 'Logging in...' : 'Log In'}
+      </button>
       <p class="mt-4 text-center text-xs text-white/35">No account? <button onclick={switchToSignup} class="text-gold hover:underline">Sign up free</button></p>
     </div>
   </div>

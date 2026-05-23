@@ -1,13 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { authStore, isAuthenticated, showModal } from '$lib/stores';
+  import { logoutUser } from '$lib/firebase';
 
-  let { mobileMenuOpen = $bindable(false), onLogin, onSignup }: {
-    mobileMenuOpen?: boolean;
-    onLogin: () => void;
-    onSignup: () => void;
-  } = $props();
+  let { mobileMenuOpen = $bindable(false) }: { mobileMenuOpen?: boolean } = $props();
 
   const isHome = $derived($page.url.pathname === '/');
+  const loggedIn = $derived($isAuthenticated);
+  const user = $derived($authStore);
 
   function href(section: string, route: string) {
     return isHome ? section : route;
@@ -30,8 +30,13 @@
   ];
 
   function closeMenu() { mobileMenuOpen = false; }
-  function handleLogin() { closeMenu(); onLogin(); }
-  function handleSignup() { closeMenu(); onSignup(); }
+
+  async function handleLogout() {
+    closeMenu();
+    await logoutUser();
+    authStore.logout();
+    window.location.href = '/';
+  }
 </script>
 
 <nav class="glass-nav fixed top-0 right-0 left-0 z-50">
@@ -55,8 +60,18 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <button onclick={onLogin} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log In</button>
-        <button onclick={onSignup} class="btn-gold hidden px-5 py-2 text-sm sm:inline-flex">Get Started →</button>
+        {#if loggedIn && $user}
+          <a href="/dashboard" class="hidden sm:inline-flex items-center gap-2 btn-ghost px-3 py-2 text-sm">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gold/20 text-[10px] font-bold text-gold">
+              {($user.displayName ?? 'U').charAt(0).toUpperCase()}
+            </span>
+            <span class="text-white/60">{$user.displayName ?? 'Dashboard'}</span>
+          </a>
+          <button onclick={handleLogout} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log Out</button>
+        {:else}
+          <button onclick={() => showModal('login')} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log In</button>
+          <button onclick={() => showModal('signup')} class="btn-gold hidden px-5 py-2 text-sm sm:inline-flex">Get Started →</button>
+        {/if}
         <button onclick={() => mobileMenuOpen = !mobileMenuOpen}
           class="glass ml-1 flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-xl lg:hidden"
           aria-label="Menu">
@@ -82,8 +97,13 @@
           </a>
         {/each}
         <div class="flex gap-3 px-4 pt-3 pb-2 border-t border-white/06 mt-2">
-          <button onclick={handleLogin} class="flex-1 btn-ghost py-2.5 text-sm border border-white/10 rounded-xl">Log In</button>
-          <button onclick={handleSignup} class="flex-1 btn-gold py-2.5 text-sm">Get Started</button>
+          {#if loggedIn}
+            <a href="/dashboard" onclick={closeMenu} class="flex-1 btn-ghost py-2.5 text-sm border border-white/10 rounded-xl text-center">Dashboard</a>
+            <button onclick={handleLogout} class="flex-1 btn-gold py-2.5 text-sm">Log Out</button>
+          {:else}
+            <button onclick={() => { showModal('login'); closeMenu(); }} class="flex-1 btn-ghost py-2.5 text-sm border border-white/10 rounded-xl">Log In</button>
+            <button onclick={() => { showModal('signup'); closeMenu(); }} class="flex-1 btn-gold py-2.5 text-sm">Get Started</button>
+          {/if}
         </div>
       </div>
     </div>

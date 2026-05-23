@@ -5,23 +5,49 @@
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import AuthModals from '$lib/components/AuthModals.svelte';
   import Toast from '$lib/components/Toast.svelte';
-  import { uiStore, showModal, hideModals } from '$lib/stores';
+  import { uiStore, showModal, hideModals, authStore, isAuthenticated } from '$lib/stores';
+  import { onAuthChange, sendVerificationEmail } from '$lib/firebase';
+  import { onMount } from 'svelte';
 
   let { children } = $props();
   let mobileMenuOpen = $state(false);
 
   let signupOpen = $state(false);
   let loginOpen = $state(false);
+  let emailNotVerified = $state(false);
+  let resendingVerification = $state(false);
 
   uiStore.subscribe(s => {
     signupOpen = s.signupModal;
     loginOpen = s.loginModal;
   });
 
-  // The Nav callbacks forward to the store so any component
-  // using showModal('signup') / showModal('login') triggers them
-  function onLogin() { showModal('login'); }
-  function onSignup() { showModal('signup'); }
+  onMount(() => {
+    const unsub = onAuthChange(firebaseUser => {
+      if (firebaseUser) {
+        emailNotVerified = !firebaseUser.emailVerified;
+        authStore.login({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email ?? '',
+          displayName: firebaseUser.displayName ?? 'User',
+          role: 'student',
+          photoURL: firebaseUser.photoURL ?? undefined
+        });
+      } else {
+        emailNotVerified = false;
+        authStore.logout();
+      }
+    });
+    return unsub;
+  });
+
+  async function resendVerification() {
+    resendingVerification = true;
+    try {
+      await sendVerificationEmail();
+    } catch { /* silently fail */ }
+    resendingVerification = false;
+  }
 </script>
 
 <svelte:head>
@@ -55,7 +81,20 @@
 </svelte:head>
 
 <AuthModals bind:signupOpen bind:loginOpen />
-<Nav bind:mobileMenuOpen onLogin={onLogin} onSignup={onSignup} />
+<Nav bind:mobileMenuOpen />
+
+{#if emailNotVerified}
+  <div class="relative z-40 pt-16">
+    <div class="bg-gold/10 border-b border-gold/20 py-2.5 px-4 text-center">
+      <p class="text-xs text-gold">
+        ⚠️ Your email is not verified. Check your inbox or
+        <button onclick={resendVerification} class="underline hover:text-white transition-colors">
+          {resendingVerification ? 'Sending...' : 'resend verification email'}
+        </button>
+      </p>
+    </div>
+  </div>
+{/if}
 
 {@render children()}
 

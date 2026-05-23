@@ -1,4 +1,12 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { authStore, isAuthenticated, userRole } from '$lib/stores';
+  import { goto } from '$app/navigation';
+
+  onMount(() => {
+    if (!$isAuthenticated) goto('/');
+    else if ($userRole === 'student') goto('/dashboard');
+  });
 </script>
 
 <svelte:head>

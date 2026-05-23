@@ -1,19 +1,20 @@
 <!-- src/routes/dashboard/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { authStore, dashboardStats, showModal, isAuthenticated } from '$lib/stores';
+  import { authStore, dashboardStats, isAuthenticated, userRole } from '$lib/stores';
   import { goto } from '$app/navigation';
 
   let activeTab  = $state('overview');
   let statsLoading = $state(true);
 
-  let user  = $derived($authStore);
+  let user = $derived($authStore);
   let stats = $derived($dashboardStats);
-  let auth  = $derived($isAuthenticated);
+  let auth = $derived($isAuthenticated);
+  let role = $derived($userRole);
 
   onMount(() => {
-    // Redirect if not authenticated
-    // if (!auth) goto('/');
+    if (!$auth) goto('/');
+    else if ($role === 'tutor') goto('/tutor');
     statsLoading = false;
   });
 
