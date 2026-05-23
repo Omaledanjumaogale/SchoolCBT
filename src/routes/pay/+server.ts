@@ -3,10 +3,11 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { PLANS, type PlanId } from '$lib/plans';
+import { PaymentRequestSchema } from '$lib/validation';
 
 // ─── POST: initiate payment ──────────────────────────────────
 export const POST: RequestHandler = async ({ request, platform }) => {
-  let body: { plan: PlanId; uid: string; email: string; currency?: 'NGN' | 'USD' };
+  let body: unknown;
 
   try {
     body = await request.json();
@@ -14,11 +15,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
     throw error(400, 'Invalid request body');
   }
 
-  const { plan, uid, email, currency = 'NGN' } = body;
+  const parsed = PaymentRequestSchema.safeParse(body);
+  if (!parsed.success) {
+    throw error(400, parsed.error.issues.map(i => i.message).join(', '));
+  }
 
-  if (!plan || !PLANS[plan]) throw error(400, 'Invalid plan');
-  if (!uid)                  throw error(400, 'User ID required');
-  if (!email)                throw error(400, 'Email required');
+  const { plan, uid, email, currency = 'NGN' } = parsed.data;
 
   const planConfig = PLANS[plan];
 

@@ -1,0 +1,14 @@
+// convex/tsconfig.json
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "skipLibCheck": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["./_generated"]
+}

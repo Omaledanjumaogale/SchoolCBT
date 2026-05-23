@@ -2,6 +2,7 @@
 // AI Question Generation API — SchoolCBT RaaS Engine
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { GenerateQuestionsSchema } from '$lib/validation';
 
 // ── Rate limiting (in-memory; use KV in production) ──────────
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -67,14 +68,19 @@ export const POST: RequestHandler = async ({ request, getClientAddress, platform
     throw error(429, 'Too many requests. Please wait a moment.');
   }
 
-  let body: GenerateRequest;
+  let body: unknown;
   try {
     body = await request.json();
   } catch {
     throw error(400, 'Invalid JSON body');
   }
 
-  const { subject = 'Physics', examType = 'WAEC', count = 5 } = body;
+  const parsed = GenerateQuestionsSchema.safeParse(body);
+  if (!parsed.success) {
+    throw error(400, parsed.error.issues.map(i => i.message).join(', '));
+  }
+
+  const { subject = 'Physics', examType = 'WAEC', count = 5 } = parsed.data;
 
   // Validate
   if (!subject || typeof subject !== 'string') throw error(400, 'subject is required');

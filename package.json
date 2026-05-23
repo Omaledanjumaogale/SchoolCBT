@@ -44,12 +44,14 @@
     "@typescript-eslint/parser": "^8.59.4",
     "bits-ui": "^0.21.16",
     "clsx": "^2.1.1",
+    "convex": "^1.39.1",
     "firebase": "^10.12.2",
     "svelte-sonner": "^0.3.27",
     "tailwind-merge": "^2.3.0",
     "tailwind-variants": "^0.2.1",
     "terser": "^5.48.0",
-    "wrangler": "^4.94.0"
+    "wrangler": "^4.94.0",
+    "zod": "^4.4.3"
   },
   "type": "module"
 }
