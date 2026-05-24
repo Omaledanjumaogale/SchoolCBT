@@ -105,7 +105,7 @@
           <h2 class="font-sora text-xl font-bold text-white">Create Your Account</h2>
           <p class="text-sm text-white/45 mt-0.5">Join 50,000+ Nigerian students</p>
         </div>
-        <button onclick={closeAll} class="glass h-8 w-8 rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
+        <button onclick={closeAll} class="glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
       </div>
       <div class="flex gap-1 bg-cobalt-xdark/50 rounded-xl p-1 mb-5">
         <button onclick={() => signupRole = 'student'} class="flex-1 py-2 rounded-lg text-sm transition-all {signupRole==='student' ? 'font-semibold bg-cobalt/60 border border-gold/25 text-gold' : 'font-medium text-white/50'}">🎓 Student</button>
@@ -143,7 +143,7 @@
           <h2 class="font-sora text-xl font-bold text-white">Welcome Back</h2>
           <p class="text-sm text-white/45 mt-0.5">Log in to SchoolCBT</p>
         </div>
-        <button onclick={closeAll} class="glass h-8 w-8 rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
+        <button onclick={closeAll} class="glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
       </div>
       {#if errorMsg}
         <div class="mb-4 rounded-xl border border-scarlet/20 bg-scarlet/10 p-3 text-xs text-scarlet">{errorMsg}</div>

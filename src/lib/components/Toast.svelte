@@ -1,7 +1,6 @@
 <script lang="ts">
   import { uiStore } from '$lib/stores/index';
 
-  let toastId = 0;
   let visible = $state(false);
   let message = $state('');
 
@@ -17,9 +16,9 @@
 </script>
 
 {#if visible}
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
-    id="toast"
-    style="opacity:1;transform:translateY(0)"
+    class="glass fixed z-[9999] bottom-6 right-6 max-w-[340px] rounded-xl px-5 py-3.5 flex items-center gap-2.5 text-sm transition-all duration-300 animate-fade-up"
     role="alert"
   >
     <span>{message}</span>

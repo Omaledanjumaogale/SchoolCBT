@@ -13,7 +13,7 @@
         <p class="mb-4 text-sm leading-relaxed text-white/35">Nigeria's premier Results as a Service CBT platform for JAMB, WAEC, NECO &amp; NABTEB.</p>
         <div class="flex gap-3">
           {#each [{icon:'𝕏',label:'Twitter'},{icon:'in',label:'LinkedIn'},{icon:'f',label:'Facebook'}] as social}
-            <a href="/" aria-label={social.label} class="glass hover:text-gold flex h-8 w-8 items-center justify-center rounded-lg text-sm text-white/50 transition-colors">{social.icon}</a>
+            <a href="/" aria-label={social.label} class="glass hover:text-gold flex h-11 w-11 md:h-8 md:w-8 items-center justify-center rounded-lg text-sm text-white/50 transition-colors">{social.icon}</a>
           {/each}
         </div>
       </div>

@@ -118,8 +118,8 @@
         {@const isCorrect = isAnswered && i === q?.correct}
         {@const isWrongPick = isAnswered && i === answered[currentQ] && i !== q?.correct}
         <button onclick={() => selectAnswer(i)} disabled={isAnswered}
-          class="opt-btn w-full flex items-center gap-3 p-3 text-left {isCorrect ? 'correct' : ''} {isWrongPick ? 'wrong' : ''}">
-          <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-cobalt/60 text-[10px] font-bold text-gold shrink-0">{labels[i]}</span>
+          class="opt-btn w-full flex items-center gap-3 p-3 text-left min-h-[44px] {isCorrect ? 'correct' : ''} {isWrongPick ? 'wrong' : ''}">
+          <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-cobalt/60 text-xs font-bold text-gold shrink-0">{labels[i]}</span>
           <span class="text-xs text-white/80 flex-1">{opt}</span>
         </button>
       {/each}

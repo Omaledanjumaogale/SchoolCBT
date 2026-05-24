@@ -73,7 +73,7 @@
           <button onclick={() => showModal('signup')} class="btn-gold hidden px-5 py-2 text-sm sm:inline-flex">Get Started →</button>
         {/if}
         <button onclick={() => mobileMenuOpen = !mobileMenuOpen}
-          class="glass ml-1 flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-xl lg:hidden"
+          class="glass ml-1 flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-xl lg:hidden"
           aria-label="Menu">
           {#if mobileMenuOpen}
             <span class="block h-0.5 w-5 bg-white/70 rotate-45 translate-y-2 transition-all"></span>

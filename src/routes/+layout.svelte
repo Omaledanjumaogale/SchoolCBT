@@ -5,6 +5,7 @@
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import AuthModals from '$lib/components/AuthModals.svelte';
   import Toast from '$lib/components/Toast.svelte';
+  import BottomTabBar from '$lib/components/BottomTabBar.svelte';
   import { uiStore, showModal, hideModals, authStore, isAuthenticated } from '$lib/stores';
   import { onAuthChange, sendVerificationEmail } from '$lib/firebase';
   import { onMount } from 'svelte';
@@ -99,4 +100,5 @@
 {@render children()}
 
 <SiteFooter />
+<BottomTabBar />
 <Toast />

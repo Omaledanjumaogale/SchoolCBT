@@ -53,13 +53,20 @@ body {
 }
 
 /* ── ANTI-OVERFLOW ── */
-* {
+img, video, svg, canvas, iframe, pre, code {
   max-width: 100%;
-  word-break: break-word;
-  overflow-wrap: break-word;
 }
 
-img, video, svg { max-width: 100%; height: auto; display: block; }
+img, video, svg { height: auto; display: block; }
+
+pre, code { overflow-x: auto; }
+
+/* ── MOBILE BOTTOM TAB BAR CLEARANCE ── */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 72px;
+  }
+}
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 5px; }

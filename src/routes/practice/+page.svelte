@@ -288,7 +288,7 @@
         <!-- Session Stats -->
         <div class="glass-card p-5">
           <div class="mb-3 font-mono text-[10px] uppercase tracking-widest text-white/40">Session Stats</div>
-          <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="text-center">
               <div class="font-sora text-xl font-bold text-jade">{correctCount}</div>
               <div class="text-[10px] text-white/35 mt-0.5">Correct</div>
@@ -339,7 +339,7 @@
               <div class="text-white/60 text-lg">{waecGrade}</div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
               <div class="bg-cobalt/30 rounded-xl p-4 text-center">
                 <div class="font-sora text-jade text-2xl font-bold">{correctCount}</div>
                 <div class="text-xs text-white/45 mt-1">Correct</div>
@@ -455,8 +455,7 @@
                   <button
                     onclick={() => selectAnswer(i)}
                     disabled={isAnswered}
-                    class="opt-btn w-full flex items-center gap-3 p-3.5 text-left
-                           {isAnswered ? 'answered' : ''}
+                    class="opt-btn w-full flex items-center gap-3 p-3.5 text-left min-h-[44px]                           {isAnswered ? 'answered' : ''}
                            {isCorrect  ? 'correct'  : ''}
                            {isWrongPick ? 'wrong'   : ''}"
                   >

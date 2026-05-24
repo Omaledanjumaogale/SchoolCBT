@@ -37,7 +37,7 @@
               {icon:'✍️', title:'Question Composer', desc:'Generates randomized 50-question batches using COSTAR method', gold:true},
               {icon:'✅', title:'Quality Evaluator', desc:'Ensures 90%+ grounding accuracy against West African curriculum', jade:true}
             ] as agent}
-              <div class="flex items-start gap-3">
+              <div class="flex items-start gap-3 flex-wrap">
                 <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border {agent.gold ? 'border-gold/30 bg-gold/10' : agent.jade ? 'border-jade/30 bg-jade/10' : 'border-cobalt-light/50 bg-cobalt/60'} text-xs">{agent.icon}</span>
                 <div>
                   <div class="text-sm font-medium text-white/80">{agent.title}</div>
