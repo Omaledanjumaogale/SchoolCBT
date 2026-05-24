@@ -5,20 +5,20 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 
 [vars]
 PUBLIC_APP_NAME = "SchoolCBT"
-PUBLIC_APP_URL = "https://schoolcbt.com.ng"
+PUBLIC_APP_URL = "https://schoolcbt.ewinproject.org"
 
-# KV Namespace for session/rate limiting
+# KV Namespaces (uncomment and add IDs when created)
 # [[kv_namespaces]]
 # binding = "SESSIONS"
 # id = "YOUR_KV_NAMESPACE_ID"
 
-# R2 Bucket for uploads (academic reports)
+# D1 Database (uncomment when created)
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "schoolcbt"
+# database_id = "YOUR_D1_DATABASE_ID"
+
+# R2 Bucket (uncomment when created)
 # [[r2_buckets]]
 # binding = "UPLOADS"
 # bucket_name = "schoolcbt-uploads"
-
-[build]
-command = "npm run build"
-
-[build.upload]
-format = "modules"
