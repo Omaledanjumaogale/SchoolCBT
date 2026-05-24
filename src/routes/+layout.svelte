@@ -6,22 +6,15 @@
   import AuthModals from '$lib/components/AuthModals.svelte';
   import Toast from '$lib/components/Toast.svelte';
   import BottomTabBar from '$lib/components/BottomTabBar.svelte';
-  import { uiStore, showModal, hideModals, authStore, isAuthenticated } from '$lib/stores';
+  import { uiStore, authStore, isAuthenticated } from '$lib/stores';
   import { onAuthChange, sendVerificationEmail } from '$lib/firebase';
   import { onMount } from 'svelte';
 
   let { children } = $props();
   let mobileMenuOpen = $state(false);
 
-  let signupOpen = $state(false);
-  let loginOpen = $state(false);
   let emailNotVerified = $state(false);
   let resendingVerification = $state(false);
-
-  uiStore.subscribe(s => {
-    signupOpen = s.signupModal;
-    loginOpen = s.loginModal;
-  });
 
   onMount(() => {
     const unsub = onAuthChange(firebaseUser => {
@@ -81,7 +74,7 @@
   <\/script>`}
 </svelte:head>
 
-<AuthModals bind:signupOpen bind:loginOpen />
+<AuthModals />
 <Nav bind:mobileMenuOpen />
 
 {#if emailNotVerified}

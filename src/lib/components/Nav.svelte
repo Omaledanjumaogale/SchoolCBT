@@ -59,18 +59,18 @@
         {/each}
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 md:gap-3">
         {#if loggedIn && $user}
-          <a href="/dashboard" class="hidden sm:inline-flex items-center gap-2 btn-ghost px-3 py-2 text-sm">
-            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gold/20 text-[10px] font-bold text-gold">
+          <a href="/dashboard" class="inline-flex items-center gap-1 btn-ghost px-2 py-1.5 text-xs md:px-3 md:py-2 md:text-sm">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gold/20 text-[10px] font-bold text-gold shrink-0">
               {($user.displayName ?? 'U').charAt(0).toUpperCase()}
             </span>
-            <span class="text-white/60">{$user.displayName ?? 'Dashboard'}</span>
+            <span class="text-white/60 truncate max-w-[60px] md:max-w-none">{$user.displayName ?? 'Dashboard'}</span>
           </a>
-          <button onclick={handleLogout} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log Out</button>
+          <button onclick={handleLogout} class="btn-ghost px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm min-h-[36px] md:min-h-0">Log Out</button>
         {:else}
-          <button onclick={() => showModal('login')} class="btn-ghost hidden px-4 py-2 text-sm sm:inline-flex">Log In</button>
-          <button onclick={() => showModal('signup')} class="btn-gold hidden px-5 py-2 text-sm sm:inline-flex">Get Started →</button>
+          <button onclick={() => showModal('login')} class="btn-ghost px-3 py-1.5 text-xs md:px-4 md:py-2 md:text-sm min-h-[36px] md:min-h-0">Log In</button>
+          <button onclick={() => showModal('signup')} class="btn-gold px-3.5 py-1.5 text-xs md:px-5 md:py-2 md:text-sm min-h-[36px] md:min-h-0 whitespace-nowrap">Get Started →</button>
         {/if}
         <button onclick={() => mobileMenuOpen = !mobileMenuOpen}
           class="glass ml-1 flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-xl lg:hidden"

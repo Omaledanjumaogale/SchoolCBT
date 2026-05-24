@@ -1,13 +1,18 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { authStore, isAuthenticated, showModal } from '$lib/stores';
 
   const path = $derived($page.url.pathname);
+  const loggedIn = $derived($isAuthenticated);
 
   const tabs = [
     { href: '/',          icon: '🏠', label: 'Home' },
     { href: '/practice',  icon: '⚡', label: 'Practice' },
+  ];
+
+  const authTabs = [
     { href: '/pricing',   icon: '💰', label: 'Pricing' },
-    { href: '/dashboard', icon: '📊', label: 'Dashboard' },
+    { href: '/dashboard', icon: '📊', label: loggedIn ? 'Dashboard' : 'Log In', onClick: loggedIn ? undefined : () => showModal('login') },
     { href: '/about',     icon: '🏢', label: 'About' }
   ];
 
@@ -27,5 +32,25 @@
       <span class="text-lg leading-none">{tab.icon}</span>
       <span class="text-[10px] leading-none font-medium">{tab.label}</span>
     </a>
+  {/each}
+  {#each authTabs as tab}
+    {#if tab.onClick}
+      <button onclick={tab.onClick}
+        class="flex flex-col items-center justify-center gap-0.5 min-h-[50px] min-w-[44px] px-1 py-1 rounded-lg transition-colors text-white/40 hover:text-white/70"
+        aria-label={tab.label}
+      >
+        <span class="text-lg leading-none">{tab.icon}</span>
+        <span class="text-[10px] leading-none font-medium">{tab.label}</span>
+      </button>
+    {:else}
+      <a href={tab.href}
+        class="flex flex-col items-center justify-center gap-0.5 min-h-[50px] min-w-[44px] px-1 py-1 rounded-lg transition-colors {isActive(tab.href) ? 'bg-gold/10 text-gold' : 'text-white/40 hover:text-white/70'}"
+        aria-label={tab.label}
+        aria-current={isActive(tab.href) ? 'page' : undefined}
+      >
+        <span class="text-lg leading-none">{tab.icon}</span>
+        <span class="text-[10px] leading-none font-medium">{tab.label}</span>
+      </a>
+    {/if}
   {/each}
 </nav>

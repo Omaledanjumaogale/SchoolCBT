@@ -1,13 +1,14 @@
 <script lang="ts">
   import { registerUser, loginUser, logoutUser, auth } from '$lib/firebase';
-  import { authStore } from '$lib/stores';
-  import { showToast } from '$lib/stores';
-  import { hideModals } from '$lib/stores';
+  import { authStore, showToast, showModal, hideModals, uiStore } from '$lib/stores';
 
-  let { signupOpen = $bindable(false), loginOpen = $bindable(false) }: {
-    signupOpen?: boolean;
-    loginOpen?: boolean;
-  } = $props();
+  let signupOpen = $state(false);
+  let loginOpen = $state(false);
+
+  uiStore.subscribe(s => {
+    signupOpen = s.signupModal;
+    loginOpen = s.loginModal;
+  });
 
   let signupRole = $state<'student'|'tutor'>('student');
   let signupName = $state('');
@@ -23,6 +24,7 @@
   function closeAll() {
     signupOpen = false;
     loginOpen = false;
+    hideModals(); // sync store so layout subscription doesn't reopen
     errorMsg = '';
   }
 
