@@ -1,10 +1,15 @@
 <script lang="ts">
-  let { value, label, color = 'text-white', badge }: {
-    value: string;
-    label: string;
-    color?: string;
-    badge?: string;
-  } = $props();
+  let {
+    value,
+    label,
+    color = 'text-white',
+    badge,
+  }: {
+    value: string
+    label: string
+    color?: string
+    badge?: string
+  } = $props()
 </script>
 
 <div class="stat-card p-5 text-center">

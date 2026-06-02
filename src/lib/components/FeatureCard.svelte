@@ -1,14 +1,21 @@
 <script lang="ts">
-  let { icon, title, desc, prog }: {
-    icon: string;
-    title: string;
-    desc: string;
-    prog?: { pct: number; color: string; label: string };
-  } = $props();
+  let {
+    icon,
+    title,
+    desc,
+    prog,
+  }: {
+    icon: string
+    title: string
+    desc: string
+    prog?: { pct: number; color: string; label: string }
+  } = $props()
 </script>
 
 <div class="feature-card p-6">
-  <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-cobalt/40 text-2xl">
+  <div
+    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-cobalt/40 text-2xl"
+  >
     {icon}
   </div>
   <h3 class="mb-2 text-lg font-semibold text-white">{title}</h3>

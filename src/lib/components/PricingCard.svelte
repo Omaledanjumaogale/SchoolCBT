@@ -1,21 +1,33 @@
 <script lang="ts">
-  import { showModal } from '$lib/stores';
-  let { planId, label, price, sub, priceColor = 'text-white', popular = false, badge = 'badge-blue', features = [], ctaText = 'Get Started' }: {
-    planId: string;
-    label: string;
-    price: string;
-    sub: string;
-    priceColor?: string;
-    popular?: boolean;
-    badge?: string;
-    features: string[];
-    ctaText: string;
-  } = $props();
+  import { showModal } from '$lib/stores'
+  let {
+    planId,
+    label,
+    price,
+    sub,
+    priceColor = 'text-white',
+    popular = false,
+    badge = 'badge-blue',
+    features = [],
+    ctaText = 'Get Started',
+  }: {
+    planId: string
+    label: string
+    price: string
+    sub: string
+    priceColor?: string
+    popular?: boolean
+    badge?: string
+    features: string[]
+    ctaText: string
+  } = $props()
 </script>
 
 <div class="pricing-card {popular ? 'popular' : ''} relative flex flex-col p-7">
   {#if popular}
-    <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-gold to-gold/80 px-5 py-1.5 text-xs font-extrabold text-cobalt whitespace-nowrap">
+    <div
+      class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-gold to-gold/80 px-5 py-1.5 text-xs font-extrabold text-cobalt whitespace-nowrap"
+    >
       ⭐ Most Popular
     </div>
   {/if}
@@ -29,7 +41,10 @@
       </div>
     {/each}
   </div>
-  <button onclick={() => showModal('signup')} class="btn-{popular ? 'gold' : planId === 'school' ? 'primary' : 'outline'} w-full py-3 text-sm">
+  <button
+    onclick={() => showModal('signup')}
+    class="btn-{popular ? 'gold' : planId === 'school' ? 'primary' : 'outline'} w-full py-3 text-sm"
+  >
     {ctaText}
   </button>
 </div>

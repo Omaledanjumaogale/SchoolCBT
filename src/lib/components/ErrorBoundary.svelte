@@ -1,19 +1,13 @@
 <script lang="ts">
-  import { onError } from 'svelte';
+  import type { Snippet } from 'svelte'
 
-  let { fallback }: { fallback?: string } = $props();
-  let error = $state<string | null>(null);
-  let errorStack = $state<string | null>(null);
-
-  onError((e: any) => {
-    error = e?.message ?? 'An unexpected error occurred';
-    errorStack = e?.stack ?? null;
-    console.error('[ErrorBoundary]', e);
-  });
+  let { fallback, children }: { fallback?: string; children?: Snippet } = $props()
+  let error = $state<string | null>(null)
+  let errorStack = $state<string | null>(null)
 
   function reset() {
-    error = null;
-    errorStack = null;
+    error = null
+    errorStack = null
   }
 </script>
 
@@ -25,13 +19,16 @@
     <button onclick={reset} class="btn-gold px-6 py-2.5 text-sm">Try Again</button>
     {#if errorStack}
       <details class="mt-4 text-left">
-        <summary class="text-xs text-white/30 cursor-pointer hover:text-white/50">Error details</summary>
-        <pre class="mt-2 text-xs text-white/30 bg-cobalt-xdark/60 p-3 rounded-xl overflow-x-auto">{errorStack}</pre>
+        <summary class="text-xs text-white/30 cursor-pointer hover:text-white/50"
+          >Error details</summary
+        >
+        <pre
+          class="mt-2 text-xs text-white/30 bg-cobalt-xdark/60 p-3 rounded-xl overflow-x-auto">{errorStack}</pre>
       </details>
     {/if}
   </div>
 {:else if fallback}
   <div class="p-8 text-center text-white/40">{fallback}</div>
 {:else}
-  <slot />
+  {@render children?.()}
 {/if}

@@ -1,22 +1,31 @@
 <script lang="ts">
-  let { open = $bindable(false), title = '', subtitle = '', onClose }: {
-    open: boolean;
-    title?: string;
-    subtitle?: string;
-    onClose?: () => void;
-  } = $props();
+  import type { Snippet } from 'svelte'
+
+  let {
+    open = $bindable(false),
+    title = '',
+    subtitle = '',
+    onClose,
+    children,
+  }: {
+    open: boolean
+    title?: string
+    subtitle?: string
+    onClose?: () => void
+    children?: Snippet
+  } = $props()
 
   function close() {
-    open = false;
-    onClose?.();
+    open = false
+    onClose?.()
   }
 
   function handleBackdropClick(e: MouseEvent) {
-    if (e.target === e.currentTarget) close();
+    if (e.target === e.currentTarget) close()
   }
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape') close();
+    if (e.key === 'Escape') close()
   }
 </script>
 
@@ -40,12 +49,20 @@
               <p class="text-sm text-white/45 mt-0.5">{subtitle}</p>
             {/if}
           </div>
-          <button onclick={close} class="glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
+          <button
+            onclick={close}
+            class="glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white"
+            >✕</button
+          >
         </div>
       {/if}
-      <slot />
+      {@render children?.()}
       {#if !title}
-        <button onclick={close} class="absolute top-3 right-3 glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white">✕</button>
+        <button
+          onclick={close}
+          class="absolute top-3 right-3 glass h-11 w-11 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center text-white/60 hover:text-white"
+          >✕</button
+        >
       {/if}
     </div>
   </div>

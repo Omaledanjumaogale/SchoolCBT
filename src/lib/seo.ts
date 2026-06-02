@@ -5,19 +5,15 @@
 export const SITE = {
   name: 'SchoolCBT',
   url: 'https://schoolcbt.ewinproject.org',
-  description: 'Nigeria\'s #1 AI-powered CBT platform for JAMB, WAEC, NECO & NABTEB. Multi-agent AI, predictive pass analytics, tutor matching. Results as a Service.',
+  description:
+    "Nigeria's #1 AI-powered CBT platform for JAMB, WAEC, NECO & NABTEB. Multi-agent AI, predictive pass analytics, tutor matching. Results as a Service.",
   image: 'https://schoolcbt.ewinproject.org/og-image.png',
   twitter: '@SchoolCBT',
   locale: 'en_NG',
-  currency: 'NGN'
-};
+  currency: 'NGN',
+}
 
-export function ogMeta(page: {
-  title: string;
-  description: string;
-  path?: string;
-  type?: string;
-}) {
+export function ogMeta(page: { title: string; description: string; path?: string; type?: string }) {
   return `
 <meta property="og:title" content="${page.title}" />
 <meta property="og:description" content="${page.description}" />
@@ -32,7 +28,7 @@ export function ogMeta(page: {
 <meta name="twitter:image" content="${SITE.image}" />
 <meta name="twitter:site" content="${SITE.twitter}" />
 <link rel="canonical" href="${SITE.url}${page.path ?? ''}" />
-  `.trim();
+  `.trim()
 }
 
 export function jsonLDOrganisation() {
@@ -46,13 +42,10 @@ export function jsonLDOrganisation() {
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Lagos',
-      addressCountry: 'NG'
+      addressCountry: 'NG',
     },
-    sameAs: [
-      'https://twitter.com/SchoolCBT',
-      'https://linkedin.com/company/schoolcbt'
-    ]
-  });
+    sameAs: ['https://twitter.com/SchoolCBT', 'https://linkedin.com/company/schoolcbt'],
+  })
 }
 
 export function jsonLDWebApplication() {
@@ -67,15 +60,15 @@ export function jsonLDWebApplication() {
     offers: {
       '@type': 'Offer',
       price: '10000',
-      priceCurrency: 'NGN'
+      priceCurrency: 'NGN',
     },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
       reviewCount: '50000',
-      bestRating: '5'
-    }
-  });
+      bestRating: '5',
+    },
+  })
 }
 
 export function jsonLDBreadcrumb(items: { name: string; url: string }[]) {
@@ -86,7 +79,7 @@ export function jsonLDBreadcrumb(items: { name: string; url: string }[]) {
       '@type': 'ListItem',
       position: i + 1,
       name: item.name,
-      item: `${SITE.url}${item.url}`
-    }))
-  });
+      item: `${SITE.url}${item.url}`,
+    })),
+  })
 }

@@ -6,4 +6,4 @@
 // export const csr = true;     // Default — hydrate client-side
 
 // Do NOT set prerender = true globally — landing page is dynamic
-export const prerender = false;
+export const prerender = false

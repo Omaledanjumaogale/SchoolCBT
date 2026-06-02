@@ -1,46 +1,58 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
-  import '../app.css';
-  import Nav from '$lib/components/Nav.svelte';
-  import SiteFooter from '$lib/components/SiteFooter.svelte';
-  import AuthModals from '$lib/components/AuthModals.svelte';
-  import Toast from '$lib/components/Toast.svelte';
-  import BottomTabBar from '$lib/components/BottomTabBar.svelte';
-  import { uiStore, authStore, isAuthenticated } from '$lib/stores';
-  import { onAuthChange, sendVerificationEmail } from '$lib/firebase';
-  import { onMount } from 'svelte';
+  import '../app.css'
+  import Nav from '$lib/components/Nav.svelte'
+  import SiteFooter from '$lib/components/SiteFooter.svelte'
+  import AuthModals from '$lib/components/AuthModals.svelte'
+  import Toast from '$lib/components/Toast.svelte'
+  import BottomTabBar from '$lib/components/BottomTabBar.svelte'
+  import { uiStore, authStore, isAuthenticated } from '$lib/stores'
+  import { onAuthChange, sendVerificationEmail } from '$lib/firebase'
+  import { onMount } from 'svelte'
 
-  let { children } = $props();
-  let mobileMenuOpen = $state(false);
+  let { children, data } = $props()
+  let mobileMenuOpen = $state(false)
 
-  let emailNotVerified = $state(false);
-  let resendingVerification = $state(false);
+  let emailNotVerified = $state(false)
+  let resendingVerification = $state(false)
 
   onMount(() => {
     const unsub = onAuthChange(firebaseUser => {
       if (firebaseUser) {
-        emailNotVerified = !firebaseUser.emailVerified;
+        emailNotVerified = !firebaseUser.emailVerified
         authStore.login({
           uid: firebaseUser.uid,
           email: firebaseUser.email ?? '',
           displayName: firebaseUser.displayName ?? 'User',
-          role: 'student',
-          photoURL: firebaseUser.photoURL ?? undefined
-        });
+          role: data?.user?.role ?? 'student',
+          photoURL: firebaseUser.photoURL ?? undefined,
+        })
+        fetch('/api/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email ?? '',
+            role: data?.user?.role ?? 'student',
+          }),
+        }).catch(() => {})
       } else {
-        emailNotVerified = false;
-        authStore.logout();
+        emailNotVerified = false
+        authStore.logout()
+        fetch('/api/session', { method: 'DELETE' }).catch(() => {})
       }
-    });
-    return unsub;
-  });
+    })
+    return unsub
+  })
 
   async function resendVerification() {
-    resendingVerification = true;
+    resendingVerification = true
     try {
-      await sendVerificationEmail();
-    } catch { /* silently fail */ }
-    resendingVerification = false;
+      await sendVerificationEmail()
+    } catch {
+      /* silently fail */
+    }
+    resendingVerification = false
   }
 </script>
 
@@ -60,7 +72,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
   {@html `<script type="application/ld+json">
   {

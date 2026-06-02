@@ -1,51 +1,52 @@
 // src/lib/email.ts
 // Resend email service for SchoolCBT
 // Docs: https://resend.com/docs/send-with-sveltekit
+import { env } from '$env/dynamic/private'
 
-const RESEND_API_URL = 'https://api.resend.com/emails';
-const FROM_ADDRESS = 'SchoolCBT <noreply@schoolcbt.ewinproject.org>';
+const RESEND_API_URL = 'https://api.resend.com/emails'
+const FROM_ADDRESS = 'SchoolCBT <noreply@schoolcbt.ewinproject.org>'
 
 interface SendEmailParams {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
+  to: string
+  subject: string
+  html: string
+  text?: string
 }
 
 export async function sendEmail({ to, subject, html, text }: SendEmailParams): Promise<boolean> {
-  const apiKey = import.meta.env.VITE_RESEND_API_KEY as string;
+  const apiKey = env.RESEND_API_KEY
 
   if (!apiKey) {
-    console.warn('[Email] RESEND_API_KEY not configured — skipping email send');
-    return false;
+    console.warn('[Email] RESEND_API_KEY not configured — skipping email send')
+    return false
   }
 
   try {
     const response = await fetch(RESEND_API_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: FROM_ADDRESS,
         to: [to],
         subject,
         html,
-        text: text ?? html.replace(/<[^>]*>/g, '')
-      })
-    });
+        text: text ?? html.replace(/<[^>]*>/g, ''),
+      }),
+    })
 
     if (!response.ok) {
-      const err = await response.text();
-      console.error('[Email] Resend API error:', err);
-      return false;
+      const err = await response.text()
+      console.error('[Email] Resend API error:', err)
+      return false
     }
 
-    return true;
+    return true
   } catch (e) {
-    console.error('[Email] Failed to send:', e);
-    return false;
+    console.error('[Email] Failed to send:', e)
+    return false
   }
 }
 
@@ -66,7 +67,7 @@ export function welcomeEmail(name: string): string {
       </div>
       <a href="https://schoolcbt.ewinproject.org/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px">Go to Dashboard →</a>
       <p style="font-size:12px;color:#445566;margin-top:24px">© 2025 SchoolCBT Technologies Ltd. Lagos, Nigeria.</p>
-    </div>`;
+    </div>`
 }
 
 export function passwordResetEmail(name: string, resetLink: string): string {
@@ -82,7 +83,7 @@ export function passwordResetEmail(name: string, resetLink: string): string {
       </div>
       <p style="font-size:12px;color:#445566">If you didn't request this, you can ignore this email. The link expires in 1 hour.</p>
       <p style="font-size:12px;color:#445566;margin-top:24px">© 2025 SchoolCBT Technologies Ltd. Lagos, Nigeria.</p>
-    </div>`;
+    </div>`
 }
 
 export function paymentConfirmationEmail(name: string, amount: string, plan: string): string {
@@ -100,5 +101,5 @@ export function paymentConfirmationEmail(name: string, amount: string, plan: str
       <p style="font-size:14px">Thank you for subscribing, ${name}! Your full CBT platform access is now active.</p>
       <a href="https://schoolcbt.ewinproject.org/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FFD700,#CCA900);color:#002366;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;margin-top:16px">Start Practicing →</a>
       <p style="font-size:12px;color:#445566;margin-top:24px">© 2025 SchoolCBT Technologies Ltd. Lagos, Nigeria.</p>
-    </div>`;
+    </div>`
 }

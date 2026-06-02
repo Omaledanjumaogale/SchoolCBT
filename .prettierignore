@@ -1,4 +1,5 @@
 node_modules/
+.commandcode/
 .svelte-kit/
 build/
 dist/

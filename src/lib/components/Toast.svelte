@@ -1,18 +1,21 @@
 <script lang="ts">
-  import { uiStore } from '$lib/stores/index';
+  import { uiStore } from '$lib/stores/index'
 
-  let visible = $state(false);
-  let message = $state('');
+  let visible = $state(false)
+  let message = $state('')
 
   uiStore.subscribe(s => {
     if (s.toastMessage && s.toastVisible) {
-      message = s.toastMessage;
-      visible = true;
+      message = s.toastMessage
+      visible = true
     }
     if (!s.toastVisible) {
-      setTimeout(() => { visible = false; message = ''; }, 400);
+      setTimeout(() => {
+        visible = false
+        message = ''
+      }, 400)
     }
-  });
+  })
 </script>
 
 {#if visible}

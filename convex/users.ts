@@ -1,7 +1,7 @@
 // convex/users.ts
 // User management queries and mutations
-import { v } from 'convex/values';
-import { mutation, query, internalMutation } from './_generated/server';
+import { v } from 'convex/values'
+import { mutation, query, internalMutation } from './_generated/server'
 
 // Create user profile on signup (called internally from auth webhook)
 export const create = internalMutation({
@@ -11,13 +11,16 @@ export const create = internalMutation({
     displayName: v.string(),
     role: v.union(v.literal('student'), v.literal('tutor')),
     phone: v.optional(v.string()),
-    targetExam: v.optional(v.string())
+    targetExam: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const existing = await ctx.db.query('users').withIndex('by_uid', q => q.eq('uid', args.uid)).first();
-    if (existing) return existing._id;
+    const existing = await ctx.db
+      .query('users')
+      .withIndex('by_uid', q => q.eq('uid', args.uid))
+      .first()
+    if (existing) return existing._id
 
-    const now = Date.now();
+    const now = Date.now()
     return await ctx.db.insert('users', {
       uid: args.uid,
       email: args.email,
@@ -31,18 +34,21 @@ export const create = internalMutation({
       subscriptionActive: false,
       onboardingComplete: false,
       njnVerified: false,
-      createdAt: now
-    });
-  }
-});
+      createdAt: now,
+    })
+  },
+})
 
 // Get user by Firebase UID
 export const getByUid = query({
   args: { uid: v.string() },
   handler: async (ctx, args) => {
-    return await ctx.db.query('users').withIndex('by_uid', q => q.eq('uid', args.uid)).first();
-  }
-});
+    return await ctx.db
+      .query('users')
+      .withIndex('by_uid', q => q.eq('uid', args.uid))
+      .first()
+  },
+})
 
 // Update user profile
 export const updateProfile = mutation({
@@ -53,23 +59,29 @@ export const updateProfile = mutation({
     state: v.optional(v.string()),
     phone: v.optional(v.string()),
     targetExam: v.optional(v.string()),
-    onboardingComplete: v.optional(v.boolean())
+    onboardingComplete: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
-    const user = await ctx.db.query('users').withIndex('by_uid', q => q.eq('uid', args.uid)).first();
-    if (!user) throw new Error('User not found');
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_uid', q => q.eq('uid', args.uid))
+      .first()
+    if (!user) throw new Error('User not found')
 
-    const { uid, ...updates } = args;
-    return await ctx.db.patch(user._id, { ...updates, updatedAt: Date.now() });
-  }
-});
+    const { uid, ...updates } = args
+    return await ctx.db.patch(user._id, { ...updates, updatedAt: Date.now() })
+  },
+})
 
 // Activate subscription
 export const activateSubscription = mutation({
   args: { uid: v.string() },
   handler: async (ctx, args) => {
-    const user = await ctx.db.query('users').withIndex('by_uid', q => q.eq('uid', args.uid)).first();
-    if (!user) throw new Error('User not found');
-    await ctx.db.patch(user._id, { subscriptionActive: true, updatedAt: Date.now() });
-  }
-});
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_uid', q => q.eq('uid', args.uid))
+      .first()
+    if (!user) throw new Error('User not found')
+    await ctx.db.patch(user._id, { subscriptionActive: true, updatedAt: Date.now() })
+  },
+})

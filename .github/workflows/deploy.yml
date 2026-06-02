@@ -27,11 +27,15 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint . --max-warnings 10
-        continue-on-error: true
 
       - name: Check formatting
         run: npx prettier --check .
-        continue-on-error: true
+
+      - name: Type check
+        run: npm run check
+
+      - name: Unit tests
+        run: npm run test
 
   build:
     name: Build
@@ -84,4 +88,4 @@ jobs:
         run: docker build -t schoolcbt:latest .
 
       - name: Check image size
-        run: docker images schoolcbt:latest --format "Image size: {{.Size}}"
+        run: 'docker images schoolcbt:latest --format "Image size: {{.Size}}"'

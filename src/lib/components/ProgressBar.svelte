@@ -1,10 +1,15 @@
 <script lang="ts">
-  let { pct, color = 'jade', label = '', class: klass = '' }: {
-    pct: number;
-    color?: string;
-    label?: string;
-    class?: string;
-  } = $props();
+  let {
+    pct,
+    color = 'jade',
+    label = '',
+    class: klass = '',
+  }: {
+    pct: number
+    color?: string
+    label?: string
+    class?: string
+  } = $props()
 </script>
 
 {#if label}

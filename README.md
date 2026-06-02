@@ -12,20 +12,20 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | SvelteKit 5 (Svelte 5 runes — `$state`, `$derived`, `$props`, `$bindable`) |
-| Language | TypeScript 5.4 strict |
-| Styling | Tailwind CSS 3.4 + glassmorphism design system (529-line `app.css`) |
-| Auth | Firebase Auth (email/password, OTP, email verification, role-based) |
-| Real-time DB | Convex (8 tables, typed schema, real-time subscriptions) |
-| AI Engine | Gemini 1.5 Flash via `api/generate/+server.ts` |
-| Payments | Paystack, Stripe, Flutterwave, KoraPay, Seerbit |
-| Email | Resend (transactional: welcome, password reset, payment confirmation) |
-| Validation | Zod (runtime type safety on all API endpoints) |
-| Testing | Vitest (37 unit tests) + Playwright (E2E) |
-| Deployment | Cloudflare Pages via `@sveltejs/adapter-cloudflare` |
-| CI/CD | GitHub Actions (lint → build → deploy → Docker) |
+| Layer        | Technology                                                                 |
+| ------------ | -------------------------------------------------------------------------- |
+| Framework    | SvelteKit 5 (Svelte 5 runes — `$state`, `$derived`, `$props`, `$bindable`) |
+| Language     | TypeScript 5.4 strict                                                      |
+| Styling      | Tailwind CSS 3.4 + glassmorphism design system (529-line `app.css`)        |
+| Auth         | Firebase Auth (email/password, OTP, email verification, role-based)        |
+| Real-time DB | Convex (8 tables, typed schema, real-time subscriptions)                   |
+| AI Engine    | Gemini 1.5 Flash via `api/generate/+server.ts`                             |
+| Payments     | Paystack, Stripe, Flutterwave, KoraPay, Seerbit                            |
+| Email        | Resend (transactional: welcome, password reset, payment confirmation)      |
+| Validation   | Zod (runtime type safety on all API endpoints)                             |
+| Testing      | Vitest (37 unit tests) + Playwright (E2E)                                  |
+| Deployment   | Cloudflare Pages via `@sveltejs/adapter-cloudflare`                        |
+| CI/CD        | GitHub Actions (lint → build → deploy → Docker)                            |
 
 ---
 
@@ -41,16 +41,16 @@ npm run dev                   # http://localhost:5173
 
 ### Scripts
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Development server |
-| `npm run build` | Production build (Cloudflare adapter) |
-| `npm run preview` | Preview production build locally |
-| `npm run test` | Run 37 unit tests (Vitest) |
-| `npm run test:coverage` | Run tests with coverage |
-| `npm run test:e2e` | Run Playwright E2E tests |
-| `npm run lint` | ESLint + Prettier check |
-| `npm run format` | Auto-format all files |
+| Command                 | Purpose                               |
+| ----------------------- | ------------------------------------- |
+| `npm run dev`           | Development server                    |
+| `npm run build`         | Production build (Cloudflare adapter) |
+| `npm run preview`       | Preview production build locally      |
+| `npm run test`          | Run 37 unit tests (Vitest)            |
+| `npm run test:coverage` | Run tests with coverage               |
+| `npm run test:e2e`      | Run Playwright E2E tests              |
+| `npm run lint`          | ESLint + Prettier check               |
+| `npm run format`        | Auto-format all files                 |
 
 ---
 
@@ -172,6 +172,7 @@ PUBLIC_APP_URL=https://schoolcbt.ewinproject.org
 ### `POST /api/generate` — Generate AI Questions
 
 Body (validated by Zod):
+
 ```json
 {
   "subject": "Physics",
@@ -187,6 +188,7 @@ Response: `{ questions: Question[], source: "gemini"|"static-fallback" }`
 ### `POST /pay` — Initiate Payment
 
 Body (validated by Zod):
+
 ```json
 {
   "plan": "student-single",
@@ -196,6 +198,7 @@ Body (validated by Zod):
   "provider": "flutterwave"
 }
 ```
+
 Supports: `paystack`, `stripe`, `flutterwave`, `korapay`, `seerbit`
 
 ### `GET /pay?reference=REF&provider=paystack` — Verify Payment
@@ -216,16 +219,16 @@ npm run test:e2e       # Playwright (Chromium, Firefox, mobile)
 
 ## Convex Backend Schema
 
-| Table | Purpose | Key Indexes |
-|-------|---------|-------------|
-| `users` | Student/tutor profiles | `by_uid`, `by_role`, `by_email` |
-| `questions` | AI-generated question bank | `by_subject`, `by_exam`, `by_topic` |
-| `sessions` | CBT practice sessions | `by_uid`, `by_uid_subject` |
-| `analytics` | Aggregated performance stats | `by_uid` |
-| `tutors` | Tutor profiles + earnings | `by_uid`, `by_subject` |
-| `earnings` | Tutor payment records | `by_tutor`, `by_status` |
-| `payments` | Payment transactions | `by_uid`, `by_reference` |
-| `approvals` | Admin verification queue | `by_uid`, `by_status` |
+| Table       | Purpose                      | Key Indexes                         |
+| ----------- | ---------------------------- | ----------------------------------- |
+| `users`     | Student/tutor profiles       | `by_uid`, `by_role`, `by_email`     |
+| `questions` | AI-generated question bank   | `by_subject`, `by_exam`, `by_topic` |
+| `sessions`  | CBT practice sessions        | `by_uid`, `by_uid_subject`          |
+| `analytics` | Aggregated performance stats | `by_uid`                            |
+| `tutors`    | Tutor profiles + earnings    | `by_uid`, `by_subject`              |
+| `earnings`  | Tutor payment records        | `by_tutor`, `by_status`             |
+| `payments`  | Payment transactions         | `by_uid`, `by_reference`            |
+| `approvals` | Admin verification queue     | `by_uid`, `by_status`               |
 
 ---
 
@@ -245,6 +248,7 @@ npm run test:e2e       # Playwright (Chromium, Firefox, mobile)
 docker build -t schoolcbt .
 docker run -p 4173:4173 schoolcbt
 ```
+
 Multi-stage build (node:20-alpine), non-root user, port 4173.
 
 ---
@@ -252,6 +256,7 @@ Multi-stage build (node:20-alpine), non-root user, port 4173.
 ## Deployment
 
 **Cloudflare Pages** (configured via `wrangler.toml`):
+
 ```bash
 npm run build
 npx wrangler pages deploy .svelte-kit/cloudflare --project-name schoolcbt
@@ -265,6 +270,6 @@ Or push to `master` — GitHub Actions CI/CD handles lint → build → deploy a
 
 Built with ❤️ in Lagos, Nigeria.
 
-> *"Every Nigerian student deserves guaranteed exam results — not just access to past questions."*
+> _"Every Nigerian student deserves guaranteed exam results — not just access to past questions."_
 
 **Website:** https://schoolcbt.ewinproject.org
