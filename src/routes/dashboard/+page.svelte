@@ -153,7 +153,7 @@
               Time Spent
             </div>
             <div class="font-sora text-3xl font-bold text-white">{totalHours}h</div>
-            <div class="badge badge-blue mt-2">Convex tracked</div>
+            <div class="badge badge-blue mt-2">Synced Online</div>
           </div>
           <div class="stat-card p-5 text-center">
             <div class="mb-1 font-mono text-[10px] text-white/35 uppercase tracking-widest">
@@ -162,29 +162,29 @@
             <div class="font-sora text-gold text-3xl font-bold">
               {totalQuestions.toLocaleString()}
             </div>
-            <div class="badge badge-gold mt-2">Live data</div>
+            <div class="badge badge-gold mt-2">Up to date</div>
           </div>
           <div class="stat-card p-5 text-center">
             <div class="mb-1 font-mono text-[10px] text-white/35 uppercase tracking-widest">
-              Batches
+              Practice Sets
             </div>
             <div class="font-sora text-3xl font-bold text-white">{totalBatches}</div>
-            <div class="badge badge-blue mt-2">Real-time</div>
+            <div class="badge badge-blue mt-2">Completed</div>
           </div>
           <div class="stat-card p-5 text-center">
             <div class="mb-1 font-mono text-[10px] text-white/35 uppercase tracking-widest">
-              Pass Prob.
+              Pass Chance
             </div>
             <div class="font-sora text-jade text-3xl font-bold">{passProb}%</div>
-            <div class="badge badge-jade mt-2">AI predicted</div>
+            <div class="badge badge-jade mt-2">Exam Readiness</div>
           </div>
         </div>
 
         <div class="grid gap-5 lg:grid-cols-3">
           <div class="glass-card p-6 lg:col-span-2">
             <div class="mb-5 flex items-center justify-between">
-              <h2 class="font-semibold text-white">Predictive Pass Analysis</h2>
-              <span class="badge badge-gold">AI Powered</span>
+              <h2 class="font-semibold text-white">Subject Progress</h2>
+              <span class="badge badge-gold">Exam Readiness</span>
             </div>
             <div class="space-y-4">
               {#each subjects as s}
@@ -233,9 +233,9 @@
             </div>
           </div>
           <div class="glass-card p-6">
-            <h2 class="font-semibold text-white mb-5">Bloom's Taxonomy</h2>
+            <h2 class="font-semibold text-white mb-5">Skill Levels</h2>
             <div class="space-y-3">
-              {#each [{ level: 'Knowledge & Recall', pct: 92, cls: 'jade' }, { level: 'Comprehension', pct: 85, cls: 'jade' }, { level: 'Application', pct: 71, cls: 'gold' }, { level: 'Analysis & Synthesis', pct: 55, cls: 'scarlet' }] as b}
+              {#each [{ level: 'Remembering', pct: 92, cls: 'jade' }, { level: 'Understanding', pct: 85, cls: 'jade' }, { level: 'Applying', pct: 71, cls: 'gold' }, { level: 'Problem Solving', pct: 55, cls: 'scarlet' }] as b}
                 <div
                   class="flex items-center gap-3 p-3 rounded-xl bg-{b.cls}/10 border border-{b.cls}/20"
                 >
@@ -254,8 +254,8 @@
       {:else if activeTab === 'study'}
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-5">
-            <h2 class="font-semibold text-white">AI-Generated Study Plan</h2>
-            <span class="badge badge-gold">Personalized</span>
+            <h2 class="font-semibold text-white">Your Study Plan</h2>
+            <span class="badge badge-gold">Tailored for You</span>
           </div>
           <div class="space-y-3">
             {#each [{ week: 'W1', topic: 'Number Theory & Sets', done: 100, color: 'jade', status: 'Done ✓' }, { week: 'W2', topic: 'Algebra, Equations & Inequalities', done: 100, color: 'jade', status: 'Done ✓' }, { week: 'W3', topic: 'Trigonometry', done: 65, color: 'gold', status: '65%' }, { week: 'W4', topic: 'Geometry & Mensuration', done: 0, color: 'white/20', status: 'Locked' }, { week: 'W5', topic: 'Statistics & Probability', done: 0, color: 'white/20', status: 'Locked' }] as p}
@@ -295,8 +295,8 @@
       {:else if activeTab === 'reports'}
         <div class="glass-card overflow-hidden">
           <div class="flex items-center justify-between p-5 border-b border-white/06">
-            <h2 class="font-semibold text-white">Report Vault</h2>
-            <span class="badge badge-blue">{recentBatches.length} Reports</span>
+            <h2 class="font-semibold text-white">Practice History</h2>
+            <span class="badge badge-blue">{recentBatches.length} Sessions</span>
           </div>
           <div class="overflow-x-auto">
             <table class="data-table w-full">
@@ -329,8 +329,8 @@
       {:else if activeTab === 'tutors'}
         <div class="glass-card p-6">
           <div class="flex items-center justify-between mb-5">
-            <h2 class="font-semibold text-white">AI-Matched Tutors</h2>
-            <button class="btn-outline py-2 px-4 text-xs">Request New Tutor</button>
+            <h2 class="font-semibold text-white">Available Tutors</h2>
+            <button class="btn-outline py-2 px-4 text-xs">Find a Tutor</button>
           </div>
           <div class="grid gap-4 md:grid-cols-3">
             {#each [{ initials: 'AB', name: 'Adewale Bello', subjects: 'Math · Physics', rating: 4.9, students: 124, rate: '₦750/hr', color: 'cobalt-light/60' }, { initials: 'CN', name: 'Chiamaka Nwosu', subjects: 'Chem · Biology', rating: 4.8, students: 98, rate: '₦900/hr', color: 'jade/40' }, { initials: 'YD', name: 'Yakubu Dangote', subjects: 'English · Govt', rating: 4.6, students: 76, rate: '₦650/hr', color: 'scarlet/40' }] as t}

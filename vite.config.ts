@@ -8,6 +8,6 @@ export default defineConfig({
     minify: 'terser',
   },
   optimizeDeps: {
-    include: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+    include: ['firebase/app', 'firebase/auth'],
   },
 })

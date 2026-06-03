@@ -34,6 +34,7 @@
             uid: firebaseUser.uid,
             email: firebaseUser.email ?? '',
             role: data?.user?.role ?? 'student',
+            displayName: firebaseUser.displayName ?? 'User',
           }),
         }).catch(() => {})
       } else {

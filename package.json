@@ -60,5 +60,8 @@
     "wrangler": "^4.94.0",
     "zod": "^4.4.3"
   },
+  "overrides": {
+    "wrangler": "$wrangler"
+  },
   "type": "module"
 }

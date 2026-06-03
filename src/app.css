@@ -16,6 +16,7 @@
 
 /* ── CSS VARIABLES ── */
 :root {
+  /* Default Dark Mode Theme */
   --cobalt: #002366;
   --cobalt-l: #003399;
   --cobalt-d: #001540;
@@ -28,6 +29,32 @@
   --surface: rgba(0, 14, 50, 0.72);
   --bg-base: #04091a;
   --text-base: #dde4f5;
+  --text-muted: rgba(221, 228, 245, 0.65);
+
+  /* Input Custom Fields */
+  --input-bg: rgba(0, 13, 46, 0.6);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-text: #ffffff;
+}
+
+/* Light Theme Variables */
+:root.light-mode,
+body.light-mode {
+  --bg-base: #f4f6fc;
+  --text-base: #0a0f24;
+  --text-muted: #4b5563;
+  --cobalt: #1e3a8a;
+  --cobalt-l: #3b82f6;
+  --cobalt-d: #dbeafe;
+  --cobalt-xd: #eff6ff;
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-b: rgba(30, 41, 59, 0.08);
+  --surface: rgba(255, 255, 255, 0.95);
+
+  /* Light Mode Inputs with maximum text contrast and readability */
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-text: #0a0f24;
 }
 
 /* ── RESET ── */
@@ -52,6 +79,28 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   line-height: 1.6;
+}
+
+/* ── INPUT INTERACTIVE HYBRID COHERENCY ── */
+input,
+select,
+textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border: 1.5px solid var(--input-border) !important;
+  transition: all 0.2s ease-in-out;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--gold) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2) !important;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.75 !important;
 }
 
 /* ── ANTI-OVERFLOW ── */

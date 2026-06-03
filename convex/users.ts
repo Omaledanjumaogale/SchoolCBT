@@ -85,3 +85,48 @@ export const activateSubscription = mutation({
     await ctx.db.patch(user._id, { subscriptionActive: true, updatedAt: Date.now() })
   },
 })
+
+// Synchronize user profile on login/registration (called from backend or client)
+export const sync = mutation({
+  args: {
+    uid: v.string(),
+    email: v.string(),
+    displayName: v.string(),
+    role: v.union(v.literal('student'), v.literal('tutor'), v.literal('admin')),
+    phone: v.optional(v.string()),
+    targetExam: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query('users')
+      .withIndex('by_uid', q => q.eq('uid', args.uid))
+      .first()
+
+    const now = Date.now()
+    if (existing) {
+      const updates: Record<string, any> = {
+        email: args.email,
+        displayName: args.displayName,
+        updatedAt: now,
+      }
+      if (args.phone !== undefined) updates.phone = args.phone
+      if (args.targetExam !== undefined) updates.targetExam = args.targetExam
+
+      await ctx.db.patch(existing._id, updates)
+      return existing._id
+    }
+
+    return await ctx.db.insert('users', {
+      uid: args.uid,
+      email: args.email,
+      displayName: args.displayName,
+      role: args.role,
+      phone: args.phone,
+      targetExam: args.targetExam,
+      subscriptionActive: false,
+      onboardingComplete: false,
+      njnVerified: false,
+      createdAt: now,
+    })
+  },
+})

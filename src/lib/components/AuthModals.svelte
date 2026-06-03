@@ -1,6 +1,7 @@
 <script lang="ts">
   import { registerUser, loginUser, logoutUser, auth } from '$lib/firebase'
   import { authStore, showToast, showModal, hideModals, uiStore } from '$lib/stores'
+  import { executeMutation } from '$lib/convex'
 
   let signupOpen = $state(false)
   let loginOpen = $state(false)
@@ -52,6 +53,17 @@
     errorMsg = ''
     try {
       const user = await registerUser(signupEmail, signupPassword, signupName, signupRole)
+
+      // Sync user profile to Convex in real time
+      await executeMutation('users:sync', {
+        uid: user.uid,
+        email: user.email ?? signupEmail,
+        displayName: signupName,
+        role: signupRole,
+        phone: signupPhone || undefined,
+        targetExam: signupRole === 'student' ? signupExam : undefined,
+      }).catch(err => console.error('Convex user sync error:', err))
+
       authStore.login({
         uid: user.uid,
         email: user.email ?? signupEmail,

@@ -29,6 +29,12 @@
     Application: 'badge-gold',
     Analysis: 'badge-scarlet',
   }
+  const bloomLabelMap: Record<string, string> = {
+    Knowledge: 'Recall Question',
+    Comprehension: 'Understanding Question',
+    Application: 'Practical Question',
+    Analysis: 'Complex Question',
+  }
 
   let selectedSubject = $state('Physics')
   let selectedExam = $state<ExamType>('WAEC')
@@ -800,7 +806,7 @@
                     class="badge {bloomColors[currentQuestion.bloom] ??
                       'badge-blue'} mt-0.5 shrink-0"
                   >
-                    {currentQuestion.bloom}
+                    {bloomLabelMap[currentQuestion.bloom] ?? currentQuestion.bloom}
                   </span>
                   <span class="badge badge-blue mt-0.5 shrink-0">{currentQuestion.topic}</span>
                   <p class="min-w-0 flex-1 text-sm leading-relaxed text-white/85">

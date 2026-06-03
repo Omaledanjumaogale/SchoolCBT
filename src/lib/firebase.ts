@@ -12,20 +12,6 @@ import {
   updateProfile,
   type User,
 } from 'firebase/auth'
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  orderBy,
-  limit,
-  getDocs,
-  serverTimestamp,
-} from 'firebase/firestore'
 import { browser } from '$app/environment'
 
 // ─── FIREBASE CONFIG ────────────────────────────────────────
@@ -45,15 +31,12 @@ const firebaseConfigured = Boolean(
 
 // ─── INITIALIZE ─────────────────────────────────────────────
 let app: FirebaseApp
-let db: any
 
 if (browser && firebaseConfigured) {
   app = getApps().length ? getApp() : initializeApp(firebaseConfig)
-  db = getFirestore(app)
 }
 
 export const auth = browser && firebaseConfigured ? getAuth(app!) : null
-export { db }
 
 // ─── AUTH HELPERS ───────────────────────────────────────────
 export async function registerUser(
@@ -66,17 +49,6 @@ export async function registerUser(
   const cred = await createUserWithEmailAndPassword(auth, email, password)
   await updateProfile(cred.user, { displayName: name })
   await sendEmailVerification(cred.user)
-
-  // Create Firestore profile
-  await setDoc(doc(db!, 'users', cred.user.uid), {
-    uid: cred.user.uid,
-    email,
-    displayName: name,
-    role,
-    createdAt: serverTimestamp(),
-    subscriptionActive: false,
-    onboardingComplete: false,
-  })
 
   return cred.user
 }
@@ -105,45 +77,4 @@ export async function sendPasswordReset(email: string) {
 export async function sendVerificationEmail() {
   if (!auth?.currentUser) throw new Error('No user logged in')
   await sendEmailVerification(auth.currentUser)
-}
-
-// ─── FIRESTORE HELPERS ──────────────────────────────────────
-export async function getUserProfile(uid: string) {
-  if (!db) return null
-  const snap = await getDoc(doc(db, 'users', uid))
-  return snap.exists() ? snap.data() : null
-}
-
-export async function saveSession(uid: string, sessionData: Record<string, unknown>) {
-  if (!db) return
-  const ref = doc(collection(db, 'sessions'))
-  await setDoc(ref, {
-    uid,
-    ...sessionData,
-    createdAt: serverTimestamp(),
-  })
-  return ref.id
-}
-
-export async function getUserSessions(uid: string, limitN = 10) {
-  if (!db) return []
-  const q = query(
-    collection(db, 'sessions'),
-    where('uid', '==', uid),
-    orderBy('createdAt', 'desc'),
-    limit(limitN),
-  )
-  const snap = await getDocs(q)
-  return snap.docs.map((d: { id: string; data: () => Record<string, unknown> }) => ({
-    id: d.id,
-    ...d.data(),
-  }))
-}
-
-export async function updateUserProfile(uid: string, data: Record<string, unknown>) {
-  if (!db) return
-  await updateDoc(doc(db, 'users', uid), {
-    ...data,
-    updatedAt: serverTimestamp(),
-  })
 }
