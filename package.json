@@ -44,9 +44,7 @@
     "vitest": "^4.1.7"
   },
   "dependencies": {
-    "@cloudflare/workerd-windows-64": "^1.20260523.1",
     "@fontsource/dm-sans": "^5.0.18",
-    "@rollup/rollup-win32-x64-msvc": "^4.60.4",
     "@typescript-eslint/eslint-plugin": "^8.59.4",
     "@typescript-eslint/parser": "^8.59.4",
     "bits-ui": "^0.21.16",
